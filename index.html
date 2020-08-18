@@ -23,7 +23,20 @@
                 <input type="text" id="isbn" class="u-full-width">
             </div>
         </form>
-        
+        <hr>
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th></th> <!-- Empty as this is where the delete link will be placed -->
+                </tr>
+            </thead>
+            <tbody id="book-list"></tbody> <!-- tbody is left empty because we will dynamically add book titles to the list using JS -->
+        </table>
     </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
