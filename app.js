@@ -51,6 +51,22 @@ UI.prototype.showAlert = function(message, className) {
     }, 3000);
 }
 
+// Delete book
+UI.prototype.deleteBook = function(target) {
+    if (target.className === 'delete') {
+        target.parentElement.parentElement.remove();
+    }
+}
+
+// Verify book removal
+UI.prototype.verifyBookRemoval = function(originalNumberOfBooks, newNumberOfBooks) {
+    if (newNumberOfBooks < originalNumberOfBooks) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Clear fields
 UI.prototype.clearFields = function() {
     document.getElementById('title').value = '';
@@ -58,7 +74,7 @@ UI.prototype.clearFields = function() {
     document.getElementById('isbn').value = '';
 }
 
-// Event listeners
+// Event listener for adding a book
 document.getElementById('book-form').addEventListener('submit', function(e) {
 
     // Get form values submitted by user
@@ -84,6 +100,30 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
 
         // Clear fields
         ui.clearFields();
+    }
+
+    e.preventDefault();
+});
+
+// Event listener for deleting books from our list (using event delegation as the Xs only exist once a user has first made an input)
+document.getElementById('book-list').addEventListener('click', function(e) {
+    // Count number of books currently in our book list - will be used to check if items have been removed
+    const originalNumberOfBooks = document.getElementById('book-list').rows.length;
+
+    // Instantiate UI
+    const ui = new UI();
+
+    // Delete book
+    ui.deleteBook(e.target);
+    
+    // Count books again
+    const newNumberOfBooks = document.getElementById('book-list').rows.length;
+    
+    console.log(newNumberOfBooks);
+
+    // Verify book has been deleted before displaying success message
+    if (ui.verifyBookRemoval(originalNumberOfBooks, newNumberOfBooks)) {
+        ui.showAlert('Book removed!', 'success');
     }
 
     e.preventDefault();
